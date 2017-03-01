@@ -12,7 +12,7 @@ var Container = PIXI.Container,
 
 
 var stage = new Container(),
-    renderer = autoDetectRenderer(256, 144, {resolution: 4, antialias: false});
+    renderer = autoDetectRenderer(128, 72, {resolution: 8, antialias: false});
 document.body.appendChild(renderer.view);
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 

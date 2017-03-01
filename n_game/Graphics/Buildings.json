@@ -2,7 +2,7 @@
 
 "building_0.png":
 {
-	"frame": {"x":1,"y":1,"w":24,"h":16},
+	"frame": {"x":1,"y":55,"w":24,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":16},
@@ -11,7 +11,7 @@
 },
 "building_1.png":
 {
-	"frame": {"x":1,"y":19,"w":24,"h":16},
+	"frame": {"x":1,"y":73,"w":24,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":16},
@@ -20,8 +20,8 @@
 },
 "building_2.png":
 {
-	"frame": {"x":1,"y":37,"w":24,"h":16},
-	"rotated": false,
+	"frame": {"x":27,"y":55,"w":24,"h":16},
+	"rotated": true,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":16},
 	"sourceSize": {"w":24,"h":16},
@@ -29,7 +29,7 @@
 },
 "building_3.png":
 {
-	"frame": {"x":1,"y":55,"w":24,"h":16},
+	"frame": {"x":1,"y":91,"w":24,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":16},
@@ -38,11 +38,38 @@
 },
 "building_4.png":
 {
-	"frame": {"x":1,"y":73,"w":24,"h":16},
-	"rotated": false,
+	"frame": {"x":27,"y":81,"w":24,"h":16},
+	"rotated": true,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":24,"h":16},
 	"sourceSize": {"w":24,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"building_long_0.png":
+{
+	"frame": {"x":1,"y":1,"w":48,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":16},
+	"sourceSize": {"w":48,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"building_long_1.png":
+{
+	"frame": {"x":1,"y":19,"w":48,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":16},
+	"sourceSize": {"w":48,"h":16},
+	"pivot": {"x":0.5,"y":0.5}
+},
+"building_long_2.png":
+{
+	"frame": {"x":1,"y":37,"w":48,"h":16},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":48,"h":16},
+	"sourceSize": {"w":48,"h":16},
 	"pivot": {"x":0.5,"y":0.5}
 }},
 "meta": {
@@ -50,8 +77,8 @@
 	"version": "1.0",
 	"image": "Buildings.png",
 	"format": "RGBA8888",
-	"size": {"w":26,"h":90},
+	"size": {"w":50,"h":108},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:f51265e5cafe7a727a933901040b399c:09537961fad0df0f4606e2627eb3a569:cbb106221731d8f36245d926821cb5ce$"
+	"smartupdate": "$TexturePacker:SmartUpdate:af5ac6d7f6cc851ce220c9b3b9f59f96:d19074b3ea3ef8350d97b30164b1d501:cbb106221731d8f36245d926821cb5ce$"
 }
 }

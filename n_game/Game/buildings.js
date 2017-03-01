@@ -14,9 +14,10 @@ function generateRooms(){
       if(x % 2 == 0){
           prm = prooms["Long"];
       }
-
-      console.log(mx);
-      floor[x] = new Room(prm, x, y, mx, 0);
+      if(x % 3 == 0 && y > 0){
+          prm = prooms["Three_Lower"];
+      }
+      floor[x] = new Room(prm, x, y, mx);
       mx += prm.width;
     }
     blds[y] = floor;
@@ -24,24 +25,28 @@ function generateRooms(){
   return blds;
 }
 
-function Room(PreRoom, x, y, mx, my){
+function Room(PreRoom, x, y, mx){
   this.tid = PreRoom.tid;
   this.x = x;
   this.y = y;
-  this.Sprite = new Sprite(id["building_"+PreRoom.tid+".png"])
+  this.Sprite = new Sprite(id[PreRoom.tid + ".png"])
   this.Sprite.position.set(mx, y*PreRoom.height);
   bld_container.addChild(this.Sprite);
 }
 
-function PreRoom(tid, fs, fh){
+function PreRoom(tid, fs){
   this.tid = tid;
   this.fs = fs;
-  this.fh = fh;
   this.width = fs*24;
-  this.height = fh*16;
+  this.height = 16;
 }
 
 function initPreRooms(){
-  prooms["Main"] = new PreRoom(0, 1, 1);
-  prooms["Long"] = new PreRoom(1, 2, 1);
+  prooms["Main"] = new PreRoom("building_0", 1, 1);
+  prooms["Long"] = new PreRoom("building_long_0", 2, 1);
+  prooms["Three_Upper"] = new PreRoom("building_long_1", 2, 1);
+  prooms["Three_Lower"] = new PreRoom("building_long_2", 2, 1);
+
+  prooms["Three_Lower"].upper = prooms["Three_Upper"];
+  prooms["Three_Upper"].lower = prooms["Three_Lower"];
 }
