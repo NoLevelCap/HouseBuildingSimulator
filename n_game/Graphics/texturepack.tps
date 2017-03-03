@@ -202,6 +202,7 @@
             <key type="filename">basic/building_2.png</key>
             <key type="filename">basic/building_3.png</key>
             <key type="filename">basic/building_4.png</key>
+            <key type="filename">basic/building_empty.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
