@@ -1,36 +1,64 @@
 var prooms = [];
 var pblocks = [];
+var a = 20;
 
 function Building(){
-  this.content = generateRooms();
+  this.content = generateRooms(generateBase());
 }
 
-function generateRooms(){
+function generateBase(){
   var blds = [[]];
-  a = 1;
   for (var y = 0; y < a; y++) {
     floor = new Array(a);
-    var mx = 0;
     for (var x = 0; x < a; x++) {
-      floor[x] = new Sprite(id["building_empty"]);
+      floor[x] = new Sprite(id["building_empty.png"]);
       floor[x].position.set(x*24, y*16);
+      floor[x].isBase = true;
+      bld_container.addChild(floor[x]);
     }
     blds[y] = floor;
   }
   return blds;
 }
 
-function Room(PreRoom, x, y, mx){
+function generateRooms(bldng){
+  for (var x = 0; x < a; x++) {
+    for (var y = 0; y < a; y++) {
+      if(bldng[y][x].isBase){
+        //console.log(bldng[y][x].isBase);
+        prm = prooms["Main"];
+        newRoom = new Room(prm, x, y, bldng);
+      }
+    }
+  }
+  console.log(bldng);
+
+  /*
+  am = 12;
+  for (var i = 0; i < 12; i++) {
+    x = Math.Round(Math.random() * a);
+    y = Math.Round(Math.random() * a);
+      if(bldng[y][x].isBase){
+        //console.log(bldng[y][x].isBase);
+        prm = prooms["Main"];
+        newRoom = new Room(prm, x, y, bldng);
+  }
+  console.log(bldng);
+  */
+
+  return bldng;
+}
+
+function Room(PreRoom, x, y, bldng){
   this.x = x;
   this.y = y;
-  this.mx = mx;
   this.block = PreRoom.homeblock;
   this.preroom = PreRoom;
   this.roomimage = [];
-  this.room.position.set(mx, y*16); //thisneeds to be in the original position
-  this.initSprites = function(){
+  this.initSprites = function(bldng){
     rid = 0;
-    this.addBlock(this.block, rid, 0, 0);
+    answer = this.checkComplete(this.block, rid, this.x, this.y, bldng);
+    //console.log(answer);
 
     for (var z in this.roomimage) {
       if (this.roomimage.hasOwnProperty(z)) {
@@ -38,63 +66,127 @@ function Room(PreRoom, x, y, mx){
       }
     }
 
-    /*otherroom = false;
-    do{
-      cr = this.block; // current room
-      this.roomimage[rid] = new Sprite(id[cr.tid + ".png"]);
-      this.room.addChild(this.roomimage[rid]);
+    this.roomimage = [];
+    rid = 0;
 
-      //workout a treelike system for room manipulation;
-    } while(otherroom);*/
+    if(answer){
 
+      this.addBlock(this.block, rid, this.x, this.y, bldng);
 
+      for (var z in this.roomimage) {
+        if (this.roomimage.hasOwnProperty(z)) {
+          this.resetBlock(this.roomimage[z].block);
+        }
+      }
+    }
   };
 
-  this.addBlock = function addBlock(block, rid, x, y){
-    this.roomimage[rid] = new Sprite(id[block.tid + ".png"]);
-    this.roomimage[rid].position.set(x*24, y*16);
-    this.roomimage[rid].block = block;
-    block.submitted = true;
-    rid++;
+  this.addBlock = function(block, rid, x, y, bldng){
+    if(x >= 0 && x < a && y >= 0 && y < a){
+      if(bldng[y][x].isBase){
+        bldng[y][x].texture = id[block.tid + ".png"];
+        bldng[y][x].block = block;
+        bldng[y][x].isBase = false;
+        this.roomimage[rid] = bldng[y][x];
+        //console.log(this.roomimage[rid]);
+        block.submitted = true;
+        rid++;
 
-    this.checkUp(block, rid, x, y);
-    this.checkRight(block, rid, x, y);
-    this.checkLeft(block, rid, x, y);
-    this.checkDown(block, rid, x, y);
+        this.checkUp(block, rid, x, y, bldng);
+        this.checkRight(block, rid, x, y, bldng);
+        this.checkLeft(block, rid, x, y, bldng);
+        this.checkDown(block, rid, x, y, bldng);
+      }
+    }
   }
 
-  this.checkUp = function(block, rid, x, y){
-    //console.log("up: " + x + "/" + y + "; " + block.up);
+    this.checkComplete = function(block, rid, x, y, bldng){
+      answer = true;
+      block.submitted = true;
+      this.roomimage[rid] = block;
+      this.roomimage[rid].block = block;
+      rid++;
+      if(x >= 0 && x < a && y >= 0 && y < a){
+        if(bldng[y][x].isBase){
+
+          if(block.up != -1){
+            if(!block.up.submitted){
+              if(!this.checkComplete(block.up, rid, x, y-1, bldng)){
+                answer = false;
+              }
+            }
+          }
+
+          if(block.right != -1){
+            if(!block.right.submitted){
+              if(!this.checkComplete(block.right, rid, x+1, y, bldng)){
+                answer = false;
+              }
+            }
+          }
+
+          if(block.down != -1){
+            if(!block.down.submitted){
+              if(!this.checkComplete(block.down,  rid, x, y+1, bldng)){
+                answer = false;
+              }
+            }
+          }
+
+          if(block.left != -1){
+            if(!block.left.submitted){
+              if(!this.checkComplete(block.left,  rid, x-1, y, bldng)){
+                answer = false;
+              }
+            }
+          }
+
+          //console.log(x + "/" + y + "fine");
+
+        } else {
+          console.log(block + "occupado");
+          answer = false;
+        }
+      }  else {
+        console.log(block + " offscreen " + x + "/" + y);
+        answer = false;
+      }
+
+      if(answer){
+        console.log(x + "/" + y + "/" + bldng[y][x].isBase);
+      }
+
+      return answer;
+    }
+
+  this.checkUp = function(block, rid, x, y, bldng){
     if(block.up != -1){
       if(!block.up.submitted){
-        this.addBlock(block.up, rid, x, y-1);
+        this.addBlock(block.up, rid, x, y-1, bldng);
       }
     }
   }
 
-  this.checkRight = function(block, rid, x, y){
-    //console.log("right: " + x + "/" + y + "; " + block.right);
+  this.checkRight = function(block, rid, x, y, bldng){
     if(block.right != -1){
       if(!block.right.submitted){
-        this.addBlock(block.right, rid, x+1, y);
+        this.addBlock(block.right, rid, x+1, y, bldng);
       }
     }
   }
 
-  this.checkLeft = function(block, rid, x, y){
-    //console.log("left: " + x + "/" + y+ "; " + block.left);
+  this.checkLeft = function(block, rid, x, y, bldng){
     if(block.left != -1){
       if(!block.left.submitted){
-        this.addBlock(block.left, rid, x-1, y);
+        this.addBlock(block.left, rid, x-1, y, bldng);
       }
     }
   }
 
-  this.checkDown = function(block, rid, x, y){
-    //console.log("down: " + x + "/" + y+ "; " + block.down);
+  this.checkDown = function(block, rid, x, y, bldng){
     if(block.down != -1){
       if(!block.down.submitted){
-        this.addBlock(block.down, rid, x, y+1);
+        this.addBlock(block.down, rid, x, y+1, bldng);
       }
     }
   }
@@ -103,7 +195,7 @@ function Room(PreRoom, x, y, mx){
     block.submitted = false;
   }
 
-  this.initSprites();
+  this.initSprites(bldng);
   //up, left, right, down
 }
 
@@ -168,9 +260,9 @@ function initBlocks(){
   pblocks["r"] = new Block("building_1");
   pblocks["rd"] = new Block("building_3");
   pblocks["rdr"] = new Block("building_4");
-  pblocks["single"].setUp(pblocks["oneabove"]);
-  pblocks["oneabove"].setUp(pblocks["new"]);
-  pblocks["new"].setRight(pblocks["r"]);
+  pblocks["single"].setRight(pblocks["oneabove"]);
+  pblocks["oneabove"].setRight(pblocks["new"]);
+  pblocks["new"].setDown(pblocks["r"]);
   pblocks["r"].setDown(pblocks["rd"]);
-  pblocks["single"].setLeft(pblocks["rdr"]);
+  //pblocks["single"].setLeft(pblocks["rdr"]);
 }

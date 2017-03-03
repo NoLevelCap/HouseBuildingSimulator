@@ -6,7 +6,7 @@ function maingame(){
 
   bld_container = new Container();
   stage.addChild(bld_container);
-  bld_container.position.set(25, 50);
+  //bld_container.position.set(25, 50);
 
   building = new Building();
   state = maingame_play;
