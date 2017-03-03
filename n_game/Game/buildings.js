@@ -11,7 +11,7 @@ function generateBase(){
   for (var y = 0; y < a; y++) {
     floor = new Array(a);
     for (var x = 0; x < a; x++) {
-      floor[x] = new Sprite(id["building_empty.png"]);
+      floor[x] = new Sprite(id["rms_1.png"]);
       floor[x].position.set(x*24, y*16);
       floor[x].isBase = true;
       bld_container.addChild(floor[x]);
@@ -22,16 +22,18 @@ function generateBase(){
 }
 
 function generateRooms(bldng){
-  for (var x = 0; x < a; x++) {
+  new Room(prooms["intro"], 0, 0, bldng);
+
+  /*for (var x = 0; x < a; x++) {
     for (var y = 0; y < a; y++) {
       if(bldng[y][x].isBase){
         //console.log(bldng[y][x].isBase);
-        prm = prooms["Main"];
+        prm = prooms["intro"];
         newRoom = new Room(prm, x, y, bldng);
       }
     }
-  }
-  console.log(bldng);
+  }*/
+  //console.log(bldng);
 
   /*
   am = 12;
@@ -86,7 +88,7 @@ function Room(PreRoom, x, y, bldng){
       if(bldng[y][x].isBase){
         bldng[y][x].texture = id[block.tid + ".png"];
         bldng[y][x].block = block;
-        bldng[y][x].isBase = false;
+        bldng[y][x].isBase = block.isBase;
         this.roomimage[rid] = bldng[y][x];
         //console.log(this.roomimage[rid]);
         block.submitted = true;
@@ -144,16 +146,12 @@ function Room(PreRoom, x, y, bldng){
           //console.log(x + "/" + y + "fine");
 
         } else {
-          console.log(block + "occupado");
+          //console.log(block + "occupado");
           answer = false;
         }
       }  else {
-        console.log(block + " offscreen " + x + "/" + y);
+        //console.log(block + " offscreen " + x + "/" + y);
         answer = false;
-      }
-
-      if(answer){
-        console.log(x + "/" + y + "/" + bldng[y][x].isBase);
       }
 
       return answer;
@@ -208,6 +206,7 @@ function Block(tid){
   this.right = -1;
   this.left = -1;
   this.submitted = false;
+  this.isBase = false;
 
   this.setContainer = function(container){
     container.addChild(this.sprite);
@@ -244,25 +243,16 @@ function PreRoom(homeblock){
 function initPreRooms(){
   initBlocks();
 
-  prooms["Main"] = new PreRoom(pblocks["single"]);
-  //prooms["Long"] = new PreRoom("building_long_0", 2, 1);
-  //prooms["Three_Upper"] = new PreRoom("building_long_1", 2, 1);
-  //prooms["Three_Lower"] = new PreRoom("building_long_2", 2, 1);
-
-  //prooms["Three_Lower"].upper = prooms["Three_Upper"];
-  //prooms["Three_Upper"].lower = prooms["Three_Lower"];
+  prooms[1] = new PreRoom(pblocks["basic"]);
+  prooms[0] = new PreRoom(pblocks["base"]);
+  prooms["intro"]= new PreRoom(pblocks["intro"]);
 }
 
 function initBlocks(){
-  pblocks["single"] = new Block("building_0");
-  pblocks["oneabove"] = new Block("building_1");
-  pblocks["new"] = new Block("building_2");
-  pblocks["r"] = new Block("building_1");
-  pblocks["rd"] = new Block("building_3");
-  pblocks["rdr"] = new Block("building_4");
-  pblocks["single"].setRight(pblocks["oneabove"]);
-  pblocks["oneabove"].setRight(pblocks["new"]);
-  pblocks["new"].setDown(pblocks["r"]);
-  pblocks["r"].setDown(pblocks["rd"]);
-  //pblocks["single"].setLeft(pblocks["rdr"]);
+  pblocks["basic"] = new Block("rms_0");
+  pblocks["base"] = new Block("rms_1");
+  pblocks["base"].isBase = true;
+
+  pblocks["intro"] = new Block("rms_2");
+  pblocks["intro"].setRight(new Block("rms_3"));
 }
