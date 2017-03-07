@@ -1,0 +1,61 @@
+{
+  "blocks": {
+    "base": {
+      "tid": "rms_1",
+      "width": 24,
+      "height": 16,
+      "isBase": true,
+      "innerOpening": [false, false, false, false],
+      "up": -1,
+      "right": -1,
+      "left": -1,
+      "down": -1,
+      "submitted": false,
+      "ldoor": false,
+      "rdoor": false
+    },
+
+    "basic": {
+      "tid": "rms_0",
+      "width": 24,
+      "height": 16,
+      "isBase": true,
+      "innerOpening": [false, false, false, false],
+      "up": -1,
+      "right": -1,
+      "left": -1,
+      "down": -1,
+      "submitted": false,
+      "ldoor": true,
+      "rdoor": true
+    },
+    "intro": {
+      "tid": "rms_2",
+      "width": 24,
+      "height": 16,
+      "isBase": true,
+      "innerOpening": [false, true, false, false],
+      "up": -1,
+      "right": "i_r",
+      "left": -1,
+      "down": -1,
+      "submitted": false,
+      "ldoor": true,
+      "rdoor": false
+    },
+    "i_r": {
+      "tid": "rms_3",
+      "width": 24,
+      "height": 16,
+      "isBase": true,
+      "innerOpening": [true, false, false, false],
+      "up": -1,
+      "right": -1,
+      "left": -1,
+      "down": -1,
+      "submitted": false,
+      "ldoor": false,
+      "rdoor": true
+    }
+  }
+}

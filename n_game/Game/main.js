@@ -17,15 +17,18 @@ document.body.appendChild(renderer.view);
 PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
 
 var state = mainmenu;
-var id;
+var id, blocks;
 
 loader.add("Graphics/Buildings.json")
+      .add("Game/level/blocks.json")
       .load(setup);
 
 
 
 function setup(){
   id = resources["Graphics/Buildings.json"].textures;
+  blocks = resources["Game/level/blocks.json"].data.blocks;
+  console.log(blocks);
 
   gameloop();
 }
